@@ -25,6 +25,7 @@ public class Scorer : MonoBehaviour
         PlayField.OnWord += PlayField_OnWord;
         Game.MinWordLength = baseLength;
         SyncScoreText();
+        SyncMinLength();
     }
 
     private void OnDisable()
@@ -59,6 +60,9 @@ public class Scorer : MonoBehaviour
     [SerializeField]
     int baseLength = 3;
 
+    [SerializeField]
+    TMPro.TextMeshProUGUI minLengthUI;
+
     int Score(string word, int combo, int iteration)
     {
         int l = word.Length;
@@ -70,11 +74,16 @@ public class Scorer : MonoBehaviour
         if (wordLevels.Any(lvl => words == lvl))
         {
             Game.MinWordLength ++;
-            Debug.Log($"Min word length now {Game.MinWordLength}");
+            SyncMinLength();
         }
 
         SyncScoreText();
         return score;
+    }
+
+    void SyncMinLength()
+    {
+        minLengthUI.text = $"Min word length: {Game.MinWordLength}";
     }
 
     void SyncScoreText()
