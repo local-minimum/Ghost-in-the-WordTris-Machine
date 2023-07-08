@@ -27,14 +27,18 @@ public class WordListManager : MonoBehaviour
             {
                 if (length > 0)
                 {
-                    Debug.Log($"{length}: {words[length].Count}");
+                    Debug.Log($"Loaded words of length {length}: {words[length].Count}");
                 }
                 length = word.Length;
                 words[length] = new HashSet<string>();
             }
             words[length].Add(word);
         }
-        Debug.Log($"{length}: {words[length].Count}");
+        Debug.Log($"Loaded words of length {length}: {words[length].Count}");
+    }
+    
+    void DebugFuctionality()
+    {
         if (HasWord("ITTESTXX", out var result, out var position))
         {
             Debug.Log(result);
@@ -42,6 +46,7 @@ public class WordListManager : MonoBehaviour
 
         Debug.Log(CountPossible("MY..TT.EX"));
     }
+
     IEnumerable<string> GenerateOptions(string line)
     {
         int length = line.Length;
