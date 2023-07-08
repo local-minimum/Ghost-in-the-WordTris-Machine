@@ -307,6 +307,14 @@ public class PlayField : MonoBehaviour
     [SerializeField]
     float scoreTime = 1;
 
+    void FactoryReset()
+    {
+        for (int lane=0; lane < lanes.Length; lane++)
+        {
+            lanes[lane].FactoryReset();
+        }
+    }
+
     private void Game_OnPhaseChange(GamePhase oldPhase, GamePhase newPhase)
     {
         if (newPhase == GamePhase.Scoring)
@@ -325,6 +333,9 @@ public class PlayField : MonoBehaviour
             {
                 nextEvent = Time.timeSinceLevelLoad + scoreTime;
             }
+        } else if (newPhase == GamePhase.FactoryReset)
+        {
+            FactoryReset();
         }
     }
 

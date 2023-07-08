@@ -23,14 +23,37 @@ public class Scorer : MonoBehaviour
     private void OnEnable()
     {
         PlayField.OnWord += PlayField_OnWord;
+        Game.OnPhaseChange += Game_OnPhaseChange;
+        FactoryReset();
+    }
+
+    private void OnDisable()
+    {
+        Game.OnPhaseChange -= Game_OnPhaseChange;
+        PlayField.OnWord -= PlayField_OnWord;
+    }
+
+    void FactoryReset()
+    {
+        score = 0;
+        words = 0;
+
+        for (int i = 0, l = history.Count; i<l; i++)
+        {
+            history[i].FactoryReset();
+        }
+
         Game.MinWordLength = baseLength;
         SyncScoreText();
         SyncMinLength();
     }
 
-    private void OnDisable()
+    private void Game_OnPhaseChange(GamePhase oldPhase, GamePhase newPhase)
     {
-        PlayField.OnWord -= PlayField_OnWord;
+        if (newPhase == GamePhase.FactoryReset)
+        {
+            FactoryReset();
+        }
     }
 
     private void PlayField_OnWord(List<string> words, int iteration)
@@ -50,6 +73,8 @@ public class Scorer : MonoBehaviour
 
     int score = 0;
     int words = 0;
+
+    public int TotalScore => score;
 
     [SerializeField]
     int totalScorePadding = 6;

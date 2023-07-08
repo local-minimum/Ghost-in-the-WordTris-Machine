@@ -18,6 +18,13 @@ public static class Game
             var oldPhase = phase;
             phase = value;
             OnPhaseChange?.Invoke(oldPhase, value);
+
+            if (value == GamePhase.FactoryReset)
+            {
+                oldPhase = value;
+                phase = GamePhase.Player;
+                OnPhaseChange?.Invoke(oldPhase, value);
+            }
         }
     }
 

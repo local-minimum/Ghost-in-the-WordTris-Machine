@@ -46,4 +46,23 @@ public class LetterSequencer : MonoBehaviour
 
         return take;
     }
+
+
+    private void OnEnable()
+    {
+        Game.OnPhaseChange += Game_OnPhaseChange;
+    }
+
+    private void OnDisable()
+    {
+        Game.OnPhaseChange -= Game_OnPhaseChange;        
+    }
+
+    private void Game_OnPhaseChange(GamePhase oldPhase, GamePhase newPhase)
+    {
+        if (newPhase == GamePhase.FactoryReset)
+        {
+            DrawStash.Clear();
+        }
+    }
 }

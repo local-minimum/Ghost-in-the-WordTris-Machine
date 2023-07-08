@@ -232,6 +232,8 @@ public class Computer : MonoBehaviour
         {
             decideTime = Time.timeSinceLevelLoad + decisionDuration;
             ChooseLane();
+        } else if (newPhase == GamePhase.FactoryReset) {
+            patterWordCount.Clear();   
         }
     }
 

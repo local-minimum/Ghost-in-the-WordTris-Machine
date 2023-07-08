@@ -58,15 +58,38 @@ public class PlayerHand : MonoBehaviour
         Game.OnPhaseChange -= Game_OnPhaseChange;
     }
 
+    void FactoryReset()
+    {
+        for (int i=0; i<hand.Count; i++)
+        {
+            hand[i].Letter = "";
+        }
+        VisibleHand = 0;
+    }
+
     private void Game_OnPhaseChange(GamePhase oldPhase, GamePhase newPhase)
     {
         Interactable = newPhase == GamePhase.Player;
+        if (newPhase == GamePhase.FactoryReset)
+        {
+            FactoryReset();
+        }
+
     }
 
     public string HandAsString => string.Join("", hand.Where(t => t.Visible).Select(t => t.Letter));
 
     private void Update()
     {
+        /*
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            Game.Phase = GamePhase.GameOver;
+            return;
+
+        }
+        */
+
         if (VisibleHand > DrawWhen) return;
 
         var handLetters = letters.Draw(HandSize - VisibleHand);

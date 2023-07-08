@@ -32,4 +32,10 @@ public class ScoreWord : MonoBehaviour
             ScoreUI.text = value.ToString();
         }
     }
+
+    public void FactoryReset()
+    {
+        Word = "";
+        ScoreUI.text = "";
+    }
 }

@@ -70,6 +70,15 @@ public class LetterLane : MonoBehaviour
         return ".";
     }
 
+    public void FactoryReset()
+    {
+        for (int i = 0; i < letters.Length; i++)
+        {
+            letters[i].Letter = "";
+            letters[i].InvokeClears();
+        }
+    }
+
     public void ClearLetter(int row)
     {
         letters[RowToRowIndex(row)].MarkClearing();
