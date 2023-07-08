@@ -112,6 +112,7 @@ public class Conversation : MonoBehaviour
             InfoDump();
         } else if (newPhase == GamePhase.FactoryReset)
         {
+            noWordRounds = 0; 
             GetItem().Message = retryGame[Random.Range(0, retryGame.Length)];
         } else if (newPhase == GamePhase.Player && noWordRounds > frustrationThreshold)
         {

@@ -228,11 +228,21 @@ public class PlayField : MonoBehaviour
         {
             OnWord?.Invoke(words, scoreIterations);
             madeWord = true;
+        } else if (scoreIterations == 1)
+        {
+            speaker.PlayOneShot(droppedSound);
         }
+
         // TODO: Something else should say when scored
         Game.Phase = GamePhase.PostScoreShift;
     }
 
+    [SerializeField]
+    AudioSource speaker;
+
+    [SerializeField]
+    AudioClip droppedSound;
+    
     void ScoreEntireBoard()
     {
         madeWord = false;
@@ -258,6 +268,9 @@ public class PlayField : MonoBehaviour
         {
             OnWord?.Invoke(words, scoreIterations);
             madeWord = true;
+        } else if (scoreIterations == 1)
+        {
+            speaker.PlayOneShot(droppedSound);
         }
 
         // TODO: Something else should say when scored
