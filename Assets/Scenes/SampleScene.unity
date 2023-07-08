@@ -162,7 +162,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: -100}
-  m_SizeDelta: {x: 275, y: 322}
+  m_SizeDelta: {x: 275, y: 325}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &127601275
 MonoBehaviour:
@@ -398,6 +398,182 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 144809921}
   m_CullTransparentMesh: 1
+--- !u!1 &286064134
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 286064135}
+  - component: {fileID: 286064138}
+  - component: {fileID: 286064137}
+  - component: {fileID: 286064136}
+  - component: {fileID: 286064139}
+  - component: {fileID: 286064140}
+  m_Layer: 5
+  m_Name: ComputerCommentary
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &286064135
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 286064134}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1349777873}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: -180, y: -100}
+  m_SizeDelta: {x: 200, y: 325}
+  m_Pivot: {x: 1, y: 1}
+--- !u!114 &286064136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 286064134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 5
+    m_Right: 5
+    m_Top: 5
+    m_Bottom: 5
+  m_ChildAlignment: 0
+  m_Spacing: 5
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 0
+  m_ChildControlWidth: 1
+  m_ChildControlHeight: 0
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
+--- !u!114 &286064137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 286064134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &286064138
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 286064134}
+  m_CullTransparentMesh: 1
+--- !u!114 &286064139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 286064134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3312d7739989d2b4e91e6319e9a96d76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding: {x: 0, y: 0, z: 0, w: 0}
+  m_Softness: {x: 0, y: 0}
+--- !u!114 &286064140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 286064134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88ef85491f832804aa2f753d9fbb490b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 7404210467946852403, guid: e826caf15e386a544ab7794a3c4462f1, type: 3}
+  maxItems: 5
+  infoDumpEmbargo: 5
+  infoDumps:
+  - Oh is this a word game? I love word games!
+  - So vertical and horizonal words scores and removes tiles...
+  - And there are combos for multiple words and chains of words.
+  - Lets Go!
+  celebrationEmbargoDuration: 4
+  iterationCelebrations:
+  - A chain reaction!
+  - 'Easy! I''m on fire! '
+  - The harder they fall!
+  - Who's got the brains? I got the brains!
+  - '%iter times - I''m invincible!'
+  multiWordCelebrations:
+  - Double trouble!
+  - Double whammy!
+  - Strike!!!
+  - '%count words in one stone!'
+  wordCelebrations:
+  - Yes!
+  - Nice!
+  - I love "%word"
+  - '"%word" <3 <3'
+  - '"%word" is the best!'
+  - E - A - S - Y!
+  - This isn't even hard
+  - I've got this!
+  - Ask! Believe! Receive!
+  - Yez!
+  - Take that stupid game!
+  - Could this be a record run?
+  - This is a great game!
+  - I'm great at this game!
+  - Words like"%word" are the best!
+  - You didn't think I knew "%word"?!
+  - Oh, is "%word" an accepted word, great!
+  - Victory!
+  - Hasta la victoria, siempre!
+  - Silly game, I'm much better than this!
+  - This isn't even hard!
+  - Success!
+  - Ganz einfach!
+  - Maybe you need to try more Z:s to make it a challenge!
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -581,7 +757,7 @@ MonoBehaviour:
   comboMultiplier: 3
   iterationMultiplier: 2
   totalScorePadding: 6
-  wordLevels: 0a00000014000000
+  wordLevels: 0f00000019000000
   baseLength: 3
   minLengthUI: {fileID: 2000623342}
 --- !u!1 &612288416
@@ -1043,6 +1219,7 @@ RectTransform:
   - {fileID: 127601274}
   - {fileID: 547593008}
   - {fileID: 1633588517}
+  - {fileID: 286064135}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
