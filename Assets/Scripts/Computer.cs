@@ -34,8 +34,89 @@ public class Computer : MonoBehaviour
         return 0;
     }
 
+    [SerializeField]
+    float bestOptionProbability = 0.66f;
+
+    bool BestOption(List<(int, long)> options, out int option)
+    {
+        if (options.Count == 0)
+        {
+            Debug.Log("Nothing scores");
+            option = -1;
+            return false;
+        } else if (options.Count == 1)
+        {
+            Debug.Log($"Only {options[0]} scores");
+            option = options[0].Item1;
+            return true;
+        }
+
+        Debug.Log($"{options.Count} scores");
+        options = options.OrderByDescending(item => item.Item2).Take(2).ToList();
+        option = options[Random.value < bestOptionProbability ? 0 : 1].Item1;
+        return true;
+    }
+
+    Dictionary<string, int> patterWordCount = new Dictionary<string, int>();
+
+    [SerializeField]
+    double flexibilityImprovementThreshold = 1.1;
+
+    bool FindMostFlexible(PlayField.VirtualBoard[] boards, out int option)
+    {
+        var options = new List<(int, long)>();
+        int maxRow = playField.MaxRow;
+
+        System.Func<string, int> scorePattern = (pattern) =>
+        {
+            if (patterWordCount.ContainsKey(pattern))
+            {
+                return patterWordCount[pattern];
+            }
+            else
+            {
+                var patternScore = wordList.CountPossible(pattern);
+                Debug.Log($"New {pattern} => {patternScore}");
+                patterWordCount.Add(pattern, patternScore);
+                return patternScore;
+            }
+        };
+
+        for (int i = 0; i < boards.Length; i++)
+        {
+            var board = boards[i];
+
+            // Debug.LogWarning($"Board {i}:\n{board}");
+            if (!board.Available) continue;
+
+            long score = 0;
+
+            for (int lane = 0; lane < board.Board.Length; lane++)
+            {
+                score += scorePattern(board.Board[lane]);
+            }
+
+            for (int row = 0; row <= maxRow; row++)
+            {
+                var rowPattern = board.RowPattern(row);
+                var rowScore = scorePattern(rowPattern);
+                // Debug.Log($"{i},{row}, {rowPattern} => {rowScore}");
+                score += rowScore;
+            }
+
+            options.Add((board.Lane, score));
+            Debug.Log($"Option {board.Lane} got score {score}");
+        }
+
+        long worstScore = (long) (
+            options.OrderByDescending(item => item.Item2).Last().Item2 
+            * flexibilityImprovementThreshold);
+
+        return BestOption(options.Where(item => item.Item2 > worstScore).ToList(), out option);
+    }
+
     bool FindBestScorer(PlayField.VirtualBoard[] boards, out int option) {
-        var options = new List<(int, int)>();
+        var options = new List<(int, long)>();
         for (int i = 0; i<boards.Length; i++)
         {
             var board = boards[i];
@@ -56,22 +137,7 @@ public class Computer : MonoBehaviour
             }
         }
 
-        if (options.Count == 0)
-        {
-            Debug.Log("Nothing scores");
-            option = -1;
-            return false;
-        } else if (options.Count == 1)
-        {
-            Debug.Log($"Only {options[0]} scores");
-            option = options[0].Item1;
-            return true;
-        }
-
-        Debug.Log($"{options.Count} scores");
-        options = options.OrderByDescending(item => item.Item2).Take(2).ToList();
-        option = options[Random.Range(0, 3) / 2].Item1;
-        return true;
+        return BestOption(options, out option);
     }
 
     bool FindOpenLane(PlayField.VirtualBoard[] boards, out int option)
@@ -114,6 +180,9 @@ public class Computer : MonoBehaviour
             var options = playField.SimulateDroppedLetter(activeLetter).ToArray();
             int option;
             if (FindBestScorer(options, out option))
+            {
+                selectedLane = option;
+            } else if (FindMostFlexible(options, out option))
             {
                 selectedLane = option;
             } else if (FindOpenLane(options, out option))

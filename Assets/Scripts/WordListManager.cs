@@ -16,6 +16,8 @@ public class WordListManager : MonoBehaviour
     int maxLength = 9;
 
     Dictionary<int, HashSet<string>> words = new Dictionary<int, HashSet<string>>();
+    Dictionary<int, int> wordCounts = new Dictionary<int, int>();
+
 
     void Start()
     {
@@ -35,6 +37,11 @@ public class WordListManager : MonoBehaviour
             words[length].Add(word);
         }
         Debug.Log($"Loaded words of length {length}: {words[length].Count}");
+
+        foreach(int wordLength in words.Keys)
+        {
+            wordCounts[wordLength] = words[wordLength].Count;
+        }
 
         // DebugFuctionality("OXE");
     }
@@ -99,13 +106,13 @@ public class WordListManager : MonoBehaviour
 
         foreach(var option in GenerateOptions(line))
         {
-            bool free = option == new string('?', option.Length);
+            bool free = option == new string('.', option.Length);
             var pattern = $"^{option}$";
             var rx = new Regex(pattern, RegexOptions.Compiled);
             for (int i = option.Length; i<=line.Length; i++)
             {
                 if (free) {
-                    hits += words[i].Count;
+                    hits += wordCounts[i];
                 } else
                 {
                     hits += words[i].Where(w => rx.IsMatch(w)).Count();

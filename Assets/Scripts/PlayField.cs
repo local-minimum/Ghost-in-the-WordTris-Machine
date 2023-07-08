@@ -33,6 +33,8 @@ public class PlayField : MonoBehaviour
 
     LetterLane[] lanes;
 
+    public int MaxRow => lanes[0].MaxRow;
+
     void Start()
     {
         lanes = new LetterLane[LaneCount];
@@ -244,7 +246,7 @@ public class PlayField : MonoBehaviour
             }
         }
 
-        for (int row = 0, l=lanes[0].MaxRow; row<l; row++)
+        for (int row = 0, l=lanes[0].MaxRow; row<=l; row++)
         {
             if (CheckRowForWords(row, out List<string> rowWords))
             {
@@ -326,7 +328,7 @@ public class PlayField : MonoBehaviour
         }
     }
 
-    public struct VirtualBoard
+    public class VirtualBoard
     {
         public bool Available;
         public int Lane;
@@ -340,6 +342,16 @@ public class PlayField : MonoBehaviour
         }
 
         public string RowPattern(int row) => string.Join("", Board.Select(lane => lane[row]));
+
+        public override string ToString()
+        {
+            List<string> lines = new List<string>();
+            for (int i=0, l=Board[0].Length; i<l; i++)
+            {
+                lines.Add(RowPattern(i));
+            }
+            return string.Join("\n", lines);
+        }
     }
 
     public IEnumerable<VirtualBoard> SimulateDroppedLetter(string letter)
