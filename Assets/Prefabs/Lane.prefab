@@ -77,4 +77,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 8918663333735155939, guid: 9ee627fe1258fa74ba5310e695710286, type: 3}
-  depth: 9
+  depth: 7

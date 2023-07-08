@@ -19,9 +19,9 @@ public class Computer : MonoBehaviour
 
     public void ReceiveLetter(string letter)
     {
+        activeLetter = letter;
         Game.Phase = GamePhase.SelectLane;
         Debug.Log($"Computer got: {letter}");
-        activeLetter = letter;
     }
 
     int CheckPattern(string pattern)
@@ -173,29 +173,41 @@ public class Computer : MonoBehaviour
         return false;
     }
 
+    [SerializeField]
+    float decisionDuration;
+
+    float decideTime;
+
+    IEnumerator<WaitForSeconds> LookForBest(PlayField.VirtualBoard[] options)
+    {
+        int option;
+        if (FindBestScorer(options, out option))
+        {
+            selectedLane = option;
+        } else
+        {
+            yield return new WaitForSeconds(0.01f);
+            if (FindMostFlexible(options, out option))
+            {
+                selectedLane = option;
+            }
+        }
+    }
+
     void ChooseLane()
     {
-        if (Random.value < 0.2f)
-        {
-            var options = playField.SimulateDroppedLetter(activeLetter).ToArray();
-            int option;
-            if (FindBestScorer(options, out option))
-            {
-                selectedLane = option;
-            } else if (FindMostFlexible(options, out option))
-            {
-                selectedLane = option;
-            } else if (FindOpenLane(options, out option))
-            {
-                selectedLane = option;
-            } else
-            {
-                Game.Phase = GamePhase.GameOver;
-                return;
-            }
+        var options = playField.SimulateDroppedLetter(activeLetter).ToArray();
+        int option;
 
-            Game.Phase = GamePhase.PreDropping;
+        if (FindOpenLane(options, out option))
+        {
+            selectedLane = option;
+        } else
+        {
+            Game.Phase = GamePhase.GameOver;
+            return;
         }
+        StartCoroutine(LookForBest(options));
     }
 
     void Drop()
@@ -204,12 +216,35 @@ public class Computer : MonoBehaviour
         Game.Phase = GamePhase.Dropping;
     }
 
+    private void OnEnable()
+    {
+        Game.OnPhaseChange += Game_OnPhaseChange;
+    }
+
+    private void OnDisable()
+    {
+        Game.OnPhaseChange -= Game_OnPhaseChange;
+    }
+
+    private void Game_OnPhaseChange(GamePhase oldPhase, GamePhase newPhase)
+    {
+        if (newPhase == GamePhase.SelectLane)
+        {
+            decideTime = Time.timeSinceLevelLoad + decisionDuration;
+            ChooseLane();
+        }
+    }
+
     private void Update()
     {
         switch (Game.Phase)
         {
             case GamePhase.SelectLane:
-                ChooseLane();
+                if (Time.timeSinceLevelLoad > decideTime)
+                {
+                    StopAllCoroutines();
+                    Game.Phase = GamePhase.PreDropping;
+                }
                 break;
             case GamePhase.PreDropping:
                 Drop();

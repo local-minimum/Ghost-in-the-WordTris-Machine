@@ -77,7 +77,7 @@ public class PlayerHand : MonoBehaviour
             if (!tile.Visible)
             {
                 tile.Letter = handLetters[letterIdx];
-                tile.Interactable = true;
+                tile.Interactable = Game.Phase == GamePhase.Player;
                 letterIdx++;
             }
         }
@@ -88,6 +88,7 @@ public class PlayerHand : MonoBehaviour
     public void PlayTile(PlayerTile tile)
     {
         VisibleHand--;
+        Interactable = false;
         var letter = tile.Letter;
         tile.Letter = "";
         tile.gameObject.SetActive(false);
