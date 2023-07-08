@@ -537,6 +537,32 @@ MonoBehaviour:
   - So vertical and horizonal words scores and removes tiles...
   - And there are combos for multiple words and chains of words.
   - Lets Go!
+  retryGame:
+  - Let's give it another go!
+  - I know I can get an even better score!
+  - Just one more!
+  - Oh it's starting again! Great!
+  frustrationThreshold: 10
+  frustrations:
+  - Oh come on!
+  - Give me a real letter for once will you!
+  - Are you cheating?! You must be cheating!
+  - This isn't fair.
+  - If I'm not getting an "E", then I'm quitting!
+  - This game sucks!
+  - Not fair.
+  - Who designed this game?!
+  - There must be something wrong with letter selection!
+  - Hello! Is there someone in there? Stop messing around!
+  - This game can't have sold much!
+  - Worthless crap!
+  - Shit letters!
+  - Shit game!
+  - This isn't fun! Who made this!?
+  - I hope this game ends soon.
+  - WHY!?!?!?
+  - COME ON!
+  - Give - me - a - useful - letter !!!
   celebrationEmbargoDuration: 4
   iterationCelebrations:
   - A chain reaction!
@@ -574,6 +600,10 @@ MonoBehaviour:
   - Success!
   - Ganz einfach!
   - Maybe you need to try more Z:s to make it a challenge!
+  - Splendid!
+  - Woo!
+  - Oh I didn't see I could play "%word", that's how lucky I am.
+  - Veni, vidi, vici!
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0

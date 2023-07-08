@@ -64,11 +64,26 @@ public class Conversation : MonoBehaviour
         return true;
     }
 
+    [SerializeField]
+    string[] retryGame;
+
+    [SerializeField]
+    float frustrationThreshold = 10;
+
+    [SerializeField]
+    string[] frustrations;
+
     private void Game_OnPhaseChange(GamePhase oldPhase, GamePhase newPhase)
     {
         if (newPhase == GamePhase.Player && (oldPhase == GamePhase.None))
         {
             InfoDump();
+        } else if (newPhase == GamePhase.FactoryReset)
+        {
+            GetItem().Message = retryGame[Random.Range(0, retryGame.Length)];
+        } else if (newPhase == GamePhase.Player && lastClear + frustrationThreshold < Time.timeSinceLevelLoad)
+        {
+            GetItem().Message = frustrations[Random.Range(0, frustrations.Length)];
         }
     }
 
@@ -103,8 +118,12 @@ public class Conversation : MonoBehaviour
         nextCelebration = Time.timeSinceLevelLoad + celebrationEmbargoDuration;
     }
 
+    float lastClear;
+
     private void PlayField_OnWord(List<string> words, int iteration)
     {
+        lastClear = Time.timeSinceLevelLoad;
+
         if (Time.timeSinceLevelLoad < nextCelebration) return;
 
         if (iteration > 1)
