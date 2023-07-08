@@ -79,16 +79,20 @@ public class PlayerHand : MonoBehaviour
 
     public string HandAsString => string.Join("", hand.Where(t => t.Visible).Select(t => t.Letter));
 
+    string inputString;
     private void Update()
     {
-        /*
-        if (Input.GetKeyDown(KeyCode.Q))
+        inputString += Input.inputString;
+        if (inputString.Length > 10)
         {
+            inputString = inputString.Substring(inputString.Length - 10);
+        }
+        if (inputString.ToLower().Contains("gameover"))
+        {
+            inputString = "";
             Game.Phase = GamePhase.GameOver;
             return;
-
         }
-        */
 
         if (VisibleHand > DrawWhen) return;
 

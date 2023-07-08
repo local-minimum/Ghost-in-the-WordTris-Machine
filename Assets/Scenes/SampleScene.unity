@@ -612,7 +612,7 @@ MonoBehaviour:
   - I'm waiting!
   - Why aren't any letters dropping?
   - Where did all the letters go?
-  - Did it hang?
+  - Did it break?
   - Oh shit, did it break?
   - I'm winning, don't you dare quit on me!
   - How hard can it be to select the next letter?
@@ -1570,6 +1570,7 @@ MonoBehaviour:
   GameOverRoot: {fileID: 1633588516}
   MessageUI: {fileID: 1096165618}
   scorer: {fileID: 547593011}
+  newGameEmbargo: 1
 --- !u!82 &1349777875
 AudioSource:
   m_ObjectHideFlags: 0

@@ -19,12 +19,14 @@ public static class Game
         {
             var oldPhase = phase;
             phase = value;
+            Debug.Log($"Phase {oldPhase} -> {value}");
             OnPhaseChange?.Invoke(oldPhase, value);
 
             if (value == GamePhase.FactoryReset)
             {
                 oldPhase = value;
                 phase = GamePhase.Player;
+                Debug.Log($"Second Phase {oldPhase} -> {phase}");
                 OnPhaseChange?.Invoke(oldPhase, value);
             }
         }
