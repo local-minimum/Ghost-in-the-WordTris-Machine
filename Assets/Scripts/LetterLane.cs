@@ -10,6 +10,8 @@ public class LetterLane : MonoBehaviour
     [SerializeField]
     int depth = 9;
 
+    public int MaxRow => depth - 1;
+
     LetterPosition[] letters;
 
     void Start()

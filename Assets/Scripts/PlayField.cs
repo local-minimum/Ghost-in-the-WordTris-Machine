@@ -15,8 +15,13 @@ public struct Patterns
     }
 }
 
+public delegate void WordEvent(List<string> words, int iteration);
+
+
 public class PlayField : MonoBehaviour
 {
+    public static event WordEvent OnWord;
+
     [SerializeField]
     WordListManager wordList;
 
@@ -133,11 +138,13 @@ public class PlayField : MonoBehaviour
     int lane;
     int row;
     float nextEvent;
+    int scoreIterations = 0;
 
     public bool Drop(string letter, int lane)
     {
         nextEvent = Time.timeSinceLevelLoad + dropSpeed;
         this.lane = lane;
+        scoreIterations = 0;
         if (!lanes[lane].InsertLetter(letter, out int landingRow))
         {
             Game.Phase = GamePhase.GameOver;
@@ -163,21 +170,92 @@ public class PlayField : MonoBehaviour
         }
     }
 
+    bool CheckLaneForWord(int lane, out string word)
+    {
+        var verticalPattern = string.Join("", lanes[lane].Pattern(false));
+        if (wordList.HasWord(verticalPattern.Replace(" ", "."), out string verticalWord, out int wordStartVert))
+        {
+            word = verticalWord;
+            lanes[lane].ClearWord(verticalWord);
+            return true;
+        }
+
+        word = "";
+        return false;
+    }
+
+    bool CheckRowForWords(int row, out List<string> words)
+    {
+        words = new List<string>();
+
+        var horizontalCandidates = string.Join("", Apply(lane => lane.RowLetter(row))).Split(".");
+        for (int i = 0, left = 0; i < horizontalCandidates.Length; i++)
+        {
+            var candidate = horizontalCandidates[i];        
+
+            if (wordList.HasWord(candidate.Replace(" ", "."), out string word, out int wordStart))
+            {
+                words.Add(word);
+
+                for (int lane = left + wordStart, l = lane + word.Length; lane<l; lane++)
+                {
+                    lanes[lane].ClearLetter(row);
+                }
+            }
+
+            // One extra for the dot
+            left += candidate.Length + 1;
+        }
+
+        return words.Count > 0;
+    }
+
     void ScoreDrop()
     {
-        var patterns = PatternsAround(new Vector2Int(lane, row), false);
-        Debug.Log($"H: {patterns.Horizontal.Replace(" ", ".")} V: {patterns.Vertical.Replace(" ", ".")}");
         madeWord = false;
-        if (wordList.HasWord(patterns.Vertical.Replace(" ", "."), out string verticalWord, out int wordStartVert))
+        List<string> words = new List<string>();
+        if (CheckLaneForWord(lane, out string verticalWord))
         {
-            lanes[lane].ClearWord(verticalWord);
-            Debug.Log($"V{row}: {verticalWord}");
+            words.Add(verticalWord);
+        }
+        if (CheckRowForWords(row, out List<string> horizontalWords))
+        {
+            words.AddRange(horizontalWords);
+        }
+
+        if (words.Count > 0)
+        {
+            OnWord?.Invoke(words, scoreIterations);
             madeWord = true;
         }
-        if (wordList.HasWord(patterns.Horizontal.Replace(" ", "."), out string horizontalWord, out int wordStartHor))
+        // TODO: Something else should say when scored
+        Game.Phase = GamePhase.PostScoreShift;
+    }
+
+    void ScoreEntireBoard()
+    {
+        madeWord = false;
+        List<string> words = new List<string>();
+
+        for (int lane = 0; lane<lanes.Length; lane++)
         {
-            Debug.Log($"H{lane}: {horizontalWord}");
-            ClearHorizontal(row, horizontalWord);
+            if (CheckLaneForWord(lane, out string verticalWord))
+            {
+                words.Add(verticalWord);
+            }
+        }
+
+        for (int row = 0, l=lanes[0].MaxRow; row<l; row++)
+        {
+            if (CheckRowForWords(row, out List<string> rowWords))
+            {
+                words.AddRange(rowWords);
+            }
+        }
+
+        if (words.Count > 0)
+        {
+            OnWord?.Invoke(words, scoreIterations);
             madeWord = true;
         }
 
@@ -232,7 +310,14 @@ public class PlayField : MonoBehaviour
     {
         if (newPhase == GamePhase.Scoring)
         {
-            ScoreDrop();
+            scoreIterations++;
+            if (scoreIterations == 1)
+            {
+                ScoreDrop();
+            } else
+            {
+                ScoreEntireBoard();
+            }
         } else if (newPhase == GamePhase.PostScoreShift)
         {
             if (madeWord)

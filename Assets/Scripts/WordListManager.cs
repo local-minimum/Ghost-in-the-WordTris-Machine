@@ -35,16 +35,23 @@ public class WordListManager : MonoBehaviour
             words[length].Add(word);
         }
         Debug.Log($"Loaded words of length {length}: {words[length].Count}");
+
+        // DebugFuctionality("OXE");
     }
+
     
-    void DebugFuctionality()
+    void DebugFuctionality(string line)
     {
-        if (HasWord("ITTESTXX", out var result, out var position))
+
+        if (HasWord("OXE", out var result, out var position))
         {
-            Debug.Log(result);
+            Debug.Log($"Found word {result} at {position}");
+        } else
+        {
+            Debug.Log("Not a word");
         }
 
-        Debug.Log(CountPossible("MY..TT.EX"));
+        Debug.Log($"Possible words: {CountPossible(line)}");
     }
 
     IEnumerable<string> GenerateOptions(string line)
@@ -62,6 +69,13 @@ public class WordListManager : MonoBehaviour
 
     public bool HasWord(string line, out string word, out int position)
     {
+        if (!words.ContainsKey(line.Length))
+        {
+            word = "";
+            position = -1;
+            return false;
+        }
+
         foreach (var option in GenerateOptions(line))
         {
             if (words[option.Length].Contains(option)) {
