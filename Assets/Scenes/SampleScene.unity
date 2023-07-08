@@ -178,6 +178,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playField: {fileID: 127601277}
   playerHand: {fileID: 612288419}
+  wordList: {fileID: 1789075963}
 --- !u!114 &127601276
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -576,6 +577,8 @@ MonoBehaviour:
   comboMultiplier: 3
   iterationMultiplier: 2
   totalScorePadding: 6
+  wordLevels: 0a00000014000000
+  baseLength: 3
 --- !u!1 &612288416
 GameObject:
   m_ObjectHideFlags: 0

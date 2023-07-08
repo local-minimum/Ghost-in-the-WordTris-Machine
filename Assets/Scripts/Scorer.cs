@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,6 +23,7 @@ public class Scorer : MonoBehaviour
     private void OnEnable()
     {
         PlayField.OnWord += PlayField_OnWord;
+        Game.MinWordLength = baseLength;
         SyncScoreText();
     }
 
@@ -46,9 +48,16 @@ public class Scorer : MonoBehaviour
     int iterationMultiplier = 2;
 
     int score = 0;
+    int words = 0;
 
     [SerializeField]
     int totalScorePadding = 6;
+
+    [SerializeField]
+    int[] wordLevels;
+
+    [SerializeField]
+    int baseLength = 3;
 
     int Score(string word, int combo, int iteration)
     {
@@ -56,6 +65,13 @@ public class Scorer : MonoBehaviour
         int score = l * combo * comboMultiplier + l * iteration * iterationMultiplier;
 
         this.score += score;
+        words++;
+
+        if (wordLevels.Any(lvl => words == lvl))
+        {
+            Game.MinWordLength ++;
+            Debug.Log($"Min word length now {Game.MinWordLength}");
+        }
 
         SyncScoreText();
         return score;

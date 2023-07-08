@@ -151,7 +151,6 @@ public class PlayField : MonoBehaviour
             return false;
         } else
         {
-            Debug.Log(landingRow);
             row = landingRow;
         }
 
@@ -323,6 +322,44 @@ public class PlayField : MonoBehaviour
             if (madeWord)
             {
                 nextEvent = Time.timeSinceLevelLoad + scoreTime;
+            }
+        }
+    }
+
+    public struct VirtualBoard
+    {
+        public bool Available;
+        public int Lane;
+        public string[] Board;
+
+        public VirtualBoard(bool available, string[] board, int lane, string substitute)
+        {
+            Available = available;
+            Lane = lane;
+            Board = available ? board.Select((l, i) => i == lane ? substitute : l).ToArray() : board;
+        }
+
+        public string RowPattern(int row) => string.Join("", Board.Select(lane => lane[row]));
+    }
+
+    public IEnumerable<VirtualBoard> SimulateDroppedLetter(string letter)
+    {
+        var patterns = lanes.Select(lane => string.Join("", lane.Pattern(true))).ToArray();
+
+        for (int i = 0; i<lanes.Length; i++)
+        {
+            var lanePattern = patterns[i];
+            var dropTargetIdx = lanePattern.LastIndexOf(".");
+            if (dropTargetIdx == -1)
+            {
+                yield return new VirtualBoard(false, patterns, i, patterns[i]);
+            } else
+            {
+                var pattern = patterns[i];
+                var pos = pattern.LastIndexOf(".");
+                var sb = new System.Text.StringBuilder(pattern);
+                sb[pos] = letter[0];
+                yield return new VirtualBoard(true, patterns, i, sb.ToString());
             }
         }
     }

@@ -76,8 +76,11 @@ public class WordListManager : MonoBehaviour
             return false;
         }
 
+        Debug.Log($"Evaluating {line} with threshold {Game.MinWordLength}");
         foreach (var option in GenerateOptions(line))
         {
+            if (option.Length < Game.MinWordLength) continue;
+
             if (words[option.Length].Contains(option)) {
                 position = line.IndexOf(option);
                 word = option;

@@ -20,4 +20,6 @@ public static class Game
             OnPhaseChange?.Invoke(oldPhase, value);
         }
     }
+
+    public static int MinWordLength { get; set; }
 }
