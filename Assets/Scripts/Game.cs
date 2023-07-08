@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public delegate void ChangePhaseEvent(GamePhase oldPhase, GamePhase newPhase);
+public delegate void ChangeMinWordLength(int minLength);
 
 public static class Game
 {
     public static event ChangePhaseEvent OnPhaseChange;
+    public static event ChangeMinWordLength OnChangeMinWordLength;
 
     private static GamePhase phase = GamePhase.None;
 
@@ -28,5 +30,14 @@ public static class Game
         }
     }
 
-    public static int MinWordLength { get; set; }
+    private static int minWordLength = 3;
+    public static int MinWordLength {
+        get => minWordLength;
+
+        set
+        {
+            minWordLength = value;
+            OnChangeMinWordLength?.Invoke(value);
+        }
+    }
 }
