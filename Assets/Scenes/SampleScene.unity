@@ -661,6 +661,7 @@ MonoBehaviour:
   prefab: {fileID: 293819692142591938, guid: 781b07242da04f94d873732d9ae1cbd1, type: 3}
   letters: {fileID: 1789075966}
   computer: {fileID: 127601275}
+  DrawWhen: 3
 --- !u!1 &1206782322
 GameObject:
   m_ObjectHideFlags: 0

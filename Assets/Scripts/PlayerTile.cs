@@ -24,6 +24,8 @@ public class PlayerTile : MonoBehaviour
         }
     }
 
+    public bool Visible => gameObject.activeSelf;
+
     public bool Interactable
     {
         get => button.interactable;
